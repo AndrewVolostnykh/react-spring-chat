@@ -1,0 +1,138 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import {
+    Link
+} from "react-router-dom";
+
+import Container from '@material-ui/core/Container';
+import { Typography, Card, Avatar, CardContent, IconButton } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CreateIcon from '@material-ui/icons/Create';
+import editModal from './EditModal';
+
+import {addMessage, deleteMessage, editMessage, getMessages, setLike, toggleEditWindow} from "../redux/actions";
+import EditModal from "./EditModal";
+
+const CardsStyle = {
+    width: "60%",
+    marginTop: "10px"
+}
+
+const rightForCurrentUser = {
+    display: "flex",
+    justifyContent: "flex-end"
+}
+
+const userAvatarAndNameStyle = {
+    display: "flex",
+    justifyContent: "flex-begin",
+    marginBottom: "10px"
+}
+
+const AvatarStyle = {
+    marginRight: "10px"
+}
+
+const CardFooter = {
+    width: "100%",
+    display: "flex",
+    alignItems: "center"
+}
+
+const CardFotterChildStyle = {
+    flex: "1"
+}
+
+
+const MessageList = ({
+                         messages,
+                         currentPropsUser,
+                         likeMessageHandler,
+                         hasEditWindow,
+                         deleteMessageHandler,
+                         toggleEdit
+}) => {
+
+    return(
+        <Container>
+            <div className="MessageList">
+                <h3>This is message list </h3>
+                {
+                    messages.map((ms, i) => {
+                        const isCurrentUser = currentPropsUser.userId === ms.userId;
+                        const divForCard = isCurrentUser ? rightForCurrentUser : null;
+                        return(
+
+                            <div style={divForCard} >
+                                <Card style={CardsStyle}>
+                                    <CardContent>
+                                        <div style={userAvatarAndNameStyle}>
+                                            {
+                                                !isCurrentUser && (
+                                                <Avatar src={ms.avatar} style={AvatarStyle}/>
+                                                )
+                                            }
+                                            <Typography gutterBottom variant="h6" component="h2">
+                                                {ms.user}
+                                            </Typography>
+                                        </div>
+                                        <Typography variant="body1" color="textSecondary" component="p">
+                                            {ms.text}
+                                        </Typography>
+                                        <div style={CardFooter}>
+                                            <div style={CardFotterChildStyle} >
+                                                {
+                                                    !isCurrentUser && (
+                                                        <IconButton onClick={() => likeMessageHandler(ms)} >
+                                                            <FavoriteIcon color={ms.isLiked ? "secondary" : "action"} />
+                                                        </IconButton>
+                                                    )
+                                                }
+                                                {
+                                                    isCurrentUser && (
+                                                        <IconButton onClick={() => deleteMessageHandler(ms)}>
+                                                            <DeleteIcon  />
+                                                        </IconButton>
+                                                    )
+                                                }
+                                                {
+                                                    isCurrentUser && (
+                                                        <Link  to={`/message/${i}`} >
+                                                            <IconButton>
+                                                                <CreateIcon/>
+                                                            </IconButton>
+                                                        </Link>
+                                                    )
+                                                }
+                                            </div>
+                                            <Typography align="right" variant="body2" color="textSecondary" style={CardFotterChildStyle}>
+                                                {ms.createdAt}
+                                            </Typography>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+          {hasEditWindow && <EditModal />}
+        </Container>
+    )
+}
+
+const mapStateToProps = state => ({
+    currentPropsUser: state.currentUser,
+    messages: state.messages,
+    hasEditWindow: Boolean(state.editMessage.id)
+})
+
+const mapDispatchToProps = {
+    toggleEdit: toggleEditWindow,
+    addMessage: addMessage,
+    deleteMessageHandler: deleteMessage,
+    likeMessageHandler: setLike
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessageList);

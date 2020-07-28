@@ -1,0 +1,79 @@
+import React, {Component, useState} from 'react';
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import {Container} from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+
+const LoginPage = (props) => {
+
+    const [user, setUser] = useState({
+        name: '',
+        password: '',
+        showPassword: false
+    })
+
+    const handleChange = (prop) => (event) => {
+        setUser({ ...user, [prop]: event.target.value });
+    }
+
+    const handleClickShowPassword = () => {
+        setUser({ ...user, showPassword: !user.showPassword });
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+
+    return (
+        <Container>
+            <TextField
+                id="outlined-helperText"
+                name="message"
+                label="Name: "
+                value={user.name}
+                variant="outlined"
+                //style={InputFieldStyle}
+                onChange={handleChange('name')}
+            />
+
+            <FormControl >
+                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                <Input
+                    id="standard-adornment-password"
+                    type={user.showPassword ? 'text' : 'password'}
+                    value={user .password}
+                    onChange={handleChange('password')}
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                            >
+                                {user.showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                />
+            </FormControl>
+
+            <Button
+                variant="contained"
+                color="primary"
+                //style={SendButton}
+                //onClick={() => addMessageHandler(user)}
+            >
+                {"Send"}
+            </Button>
+        </Container>
+    )
+}
+
+export default LoginPage;
