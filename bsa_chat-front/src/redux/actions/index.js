@@ -30,9 +30,9 @@ export const toggleEditWindow = ms => ({
   payload: ms
 })
 
-export const loginUser = (name, password) => ({
+export const loginUser = (name, password, history) => ({
   type: "LOGIN_USER",
-  payload: {userName: name, password: password}
+  payload: {userName: name, password: password, history: history}
 })
 
 export const success = () => ({

@@ -86,19 +86,14 @@ const LoginPage = (props) => {
                     }
                 />
             </FormControl>
-            <div>
-                {
-                    props.isLoading ? <CircularProgress /> : props.currentUser.userName
-                }
-            </div>
-
+            { changePage }
             <Button
                 variant="contained"
                 color="primary"
                 //style={SendButton}
                 onClick={() => {
                     props.dispatch(dropUser());
-                    props.dispatch(loginUser(user.name, user.password));
+                    props.dispatch(loginUser(user.name, user.password, history));
                 }}>
                 {"Send"}
             </Button>

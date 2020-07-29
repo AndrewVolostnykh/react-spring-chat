@@ -4,6 +4,7 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
+    Redirect,
     Link,
     useRouteMatch,
     useParams
@@ -22,7 +23,7 @@ class App extends Component {
             <Provider store={store}>
                 <Router>
                     <Switch>
-                        <Route path="/chat" component={Chat} />
+                        <Route path="/chat" component={Chat} onEnter={ !store.currentUser.isLoggedIn && <Redirect to={{pathname: '/login'}}/> }/>
                         <Route path="/message/:id" component={EditMessagePage} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/user/edit" component={UserEditOrAdd} />
