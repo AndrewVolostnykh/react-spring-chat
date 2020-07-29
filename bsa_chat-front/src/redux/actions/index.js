@@ -30,7 +30,25 @@ export const toggleEditWindow = ms => ({
   payload: ms
 })
 
-export const fetchUser = () => ({
-
+export const loginUser = (name, password) => ({
+  type: "LOGIN_USER",
+  payload: {userName: name, password: password}
 })
 
+export const success = () => ({
+  type: "SUCCESS"
+})
+
+export const inProgress = () => ({
+  type: "IN_PROGRESS"
+})
+
+export const apiError = (error) => ({
+  type: "ERROR",
+  payload: error
+})
+
+export const dropUser = () => ({
+  type: "DROP_USER",
+  payload: null
+})

@@ -1,5 +1,4 @@
 const messages = (state, action) => {
-  console.log(state.messages)
   switch (action.type) {
     case 'GET_MESSAGES':
       return {
@@ -37,9 +36,36 @@ const messages = (state, action) => {
         editMessage: action.payload
       }
 
-    case 'LOGIN_USER':
+    case 'IN_PROGRESS':
       return {
+        ...state,
+        isLoading: true
+      }
 
+    case 'SUCCESS':
+      return {
+        ...state,
+        isLoading: false
+      }
+
+    case 'ERROR':
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      }
+
+    case 'FILL_USER':
+      console.log(action.payload);
+      return {
+        ...state,
+        currentUser: action.payload
+      }
+
+    case 'DROP_USER':
+      return {
+        ...state,
+        currentUser: action.payload
       }
 
     default:

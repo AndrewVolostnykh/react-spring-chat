@@ -9,6 +9,10 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import {Container} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import {addMessage, deleteMessage, dropUser, getMessages, loginUser, setLike, toggleEditWindow} from "../redux/actions";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useHistory } from 'react-router-dom'
+import {connect} from "react-redux";
 
 const LoginPage = (props) => {
 
@@ -30,9 +34,28 @@ const LoginPage = (props) => {
         event.preventDefault();
     };
 
+    const history = useHistory();
+
+    const changePage = () => {
+        if(props.isLoading) {
+            return <div><CircularProgress /></div>
+        }
+
+        if(props.error != null) {
+            return <div>{props.error}</div>
+        }
+
+        if(props.currentUser != null) {
+            props.currentUser.isAdmin ? history.push('/users') : history.push('chat');
+        }
+
+        return null;
+    }
+
 
     return (
         <Container>
+
             <TextField
                 id="outlined-helperText"
                 name="message"
@@ -63,17 +86,26 @@ const LoginPage = (props) => {
                     }
                 />
             </FormControl>
+            <div>
+                {
+                    props.isLoading ? <CircularProgress /> : props.currentUser.userName
+                }
+            </div>
 
             <Button
                 variant="contained"
                 color="primary"
                 //style={SendButton}
-                //onClick={() => addMessageHandler(user)}
-            >
+                onClick={() => {
+                    props.dispatch(dropUser());
+                    props.dispatch(loginUser(user.name, user.password));
+                }}>
                 {"Send"}
             </Button>
         </Container>
     )
 }
 
-export default LoginPage;
+const mapStateToProps = state => state
+
+export default connect(mapStateToProps, null)(LoginPage);
