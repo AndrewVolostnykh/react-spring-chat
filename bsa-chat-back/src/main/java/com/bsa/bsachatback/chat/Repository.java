@@ -44,4 +44,12 @@ public class Repository {
     public List<Message> getMessagesList() {
         return new ArrayList<>(messages.values());
     }
+
+    public void deleteMessageById(UUID messageId) {
+        messages.remove(messageId);
+    }
+
+    public void deleteUserById(UUID userId) {
+        users.remove(userId);
+    }
 }

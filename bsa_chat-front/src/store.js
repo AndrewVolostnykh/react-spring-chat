@@ -2,7 +2,7 @@ import {createStore, applyMiddleware} from "redux";
 import rootReducer from "./redux/reducers";
 import {composeWithDevTools} from "redux-devtools-extension";
 import createSagaMiddleware from 'redux-saga';
-import {loginUser, getMessages, editMessage, addMessage} from "./redux/generators/index";
+import {loginUser, getMessages, editMessage, addMessage, deleteMessage, setLike} from "./redux/generators/index";
 
 const sagaMiddleware = createSagaMiddleware();
 const composedEnhancers = composeWithDevTools(applyMiddleware(sagaMiddleware));
@@ -33,5 +33,7 @@ sagaMiddleware.run(loginUser);
 sagaMiddleware.run(getMessages);
 sagaMiddleware.run(editMessage);
 sagaMiddleware.run(addMessage);
+sagaMiddleware.run(deleteMessage);
+sagaMiddleware.run(setLike);
 
 export default store;

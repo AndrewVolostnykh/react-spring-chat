@@ -19,6 +19,22 @@ export function* addMessage() {
     yield takeEvery('ADD_MESSAGE', addMessageAsync);
 }
 
+export function* deleteMessage() {
+    yield takeEvery('DELETE_MESSAGE', deleteMessageAsync);
+}
+
+export function* setLike() {
+    yield takeEvery('SET_LIKE', setLikeAsync);
+}
+
+export function* addUser() {
+
+}
+
+export function* removeUser() {
+
+}
+
 function* fetchUserAsync(action) {
     try {
         yield put(inProgress());
@@ -68,8 +84,31 @@ function* addMessageAsync (action) {
         });
         yield put(success());
         yield put({type: 'STORE_ADD_MESSAGE', payload: data.data});
-console.log("Message successfully added: ", data.data);
     } catch(error) {
         yield put(apiError(error))
+    }
+}
+
+function* deleteMessageAsync(action) {
+    try {
+        yield put(inProgress());
+        const data = yield call(axios.delete, 'http://localhost:8181/message/delete/' + action.payload );
+        yield put(success());
+        yield put({type: "SUCCESS_DELETE_MESSAGE", payload: action.payload});
+    } catch (error) {
+        yield put(apiError(error));
+    }
+}
+
+function* setLikeAsync(action) {
+    try {
+        console.log("Generator started: " + action.payload);
+        yield put(inProgress());
+        const data = yield call(axios.put, 'http://localhost:8181/message/like/' + action.payload );
+        yield put(success());
+        yield put({type: "SUCCESS_SET_LIKE", payload: action.payload});
+        console.log(data.data);
+    } catch (error) {
+        yield put(apiError(error));
     }
 }

@@ -5,14 +5,14 @@ export const getMessages = (userId) => ({
   payload: userId
 })
 
-export const deleteMessage = ms => ({
+export const deleteMessage = msId => ({
   type: 'DELETE_MESSAGE',
-  payload: ms.id
+  payload: msId
 })
 
-export const setLike = ms => ({
+export const setLike = msId => ({
   type: 'SET_LIKE',
-  payload: {...ms, isLiked: !ms.isLiked}
+  payload: msId
 })
 
 export const addMessage = ms => ({

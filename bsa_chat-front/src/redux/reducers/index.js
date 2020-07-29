@@ -5,13 +5,6 @@ const messages = (state, action) => {
     //     ...state,
     //     messages: action.payload
     //   }
-    case 'SET_LIKE':
-      return {
-        ...state,
-        messages: state.messages.map(m =>
-          m.id === action.payload.id ?
-            action.payload : m)
-      }
     case 'ADD_MESSAGE':
       return {
         ...state,
@@ -24,11 +17,11 @@ const messages = (state, action) => {
     //       m.id === action.payload.id ?
     //         action.payload : m)
     //   }
-    case 'DELETE_MESSAGE':
-      return {
-        ...state,
-        messages: state.messages.filter(m => m.id !== action.payload)
-      }
+    // case 'DELETE_MESSAGE':
+    //   return {
+    //     ...state,
+    //     messages: state.messages.filter(m => m.id !== action.payload)
+    //   }
 
     case 'TOGGLE_EDIT':
       return {
@@ -86,6 +79,18 @@ const messages = (state, action) => {
       return{
         ...state,
         messages: [...state.messages, action.payload]
+      }
+
+    case 'SUCCESS_DELETE_MESSAGE':
+      return {
+        ...state,
+        messages: state.messages.filter(m => m.id !== action.payload)
+      }
+
+    case 'SUCCESS_SET_LIKE':
+      return {
+        ...state,
+        messages: state.messages.map(m => m.id === action.payload ? {...m, isLike: !m.isLike} : m)
       }
 
     default:

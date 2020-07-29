@@ -4,9 +4,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import MailIcon from '@material-ui/icons/Mail';
 import PeopleIcon from '@material-ui/icons/People';
-import {addMessage, editMessage} from "../redux/actions";
+import {addMessage, dropUser, editMessage} from "../redux/actions";
 import {connect} from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 const IconsStyle = {
     marginLeft: "30px"
@@ -22,10 +23,25 @@ const linkStyle = {
     margin: "5px"
 }
 
+function latestFinder(messages) {
+    let temp;
+    for(let i = 1; i < messages.length; i++) {
+        if(messages[i-1].createdAt.localeCompare(messages[i].createdAt) == 1 ) {
+            temp = messages[i].createdAt;
+        }
+    }
+    return temp;
+}
+
 const Header = (props) => {
     let numberOfMessages = props.messages.length;
     let participants = Array.from(new Set(props.messages && props.messages.map((item) => item.userId))).length;
-    let lastMessageIn = null;
+    let lastMessageIn = props.messages ? latestFinder(props.messages) : 0;
+
+    const logout = () => {
+        window.location.reload();
+    }
+
 
     return (
         <AppBar position="fixed">
@@ -40,9 +56,9 @@ const Header = (props) => {
                 </Typography>
                 <Typography align="right" variant="h6" style={IconsStyle}><Link style={linkStyle} to="/chat">   Bsa Chat!  </Link></Typography>
                 { props.currentUser.isAdmin ? <Link style={linkStyle} to="/users">Admin tool</Link> : null }
-                <Link style={linkStyle} to="/login">Login page</Link>
+                { props.currentUser.isLoggedIn ? <Link style={linkStyle} to="/login" onClick={logout}>Logout</Link> : null}
                 <div style={lastActivityStyle}>
-                    <Typography align="right" variant="h6" style={IconsStyle}>   latest: {} </Typography>
+                    { props.currentUser.isLoggedIn && <Typography align="right" variant="h6" style={IconsStyle}>   latest: {moment(lastMessageIn).calendar()} </Typography>}
                 </div>
             </Toolbar>
         </AppBar>
@@ -51,5 +67,8 @@ const Header = (props) => {
 
 const mapStateToProps = state => state;
 
+const mapDispatchToProps = {
+    dropUserProps: dropUser
+}
 
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

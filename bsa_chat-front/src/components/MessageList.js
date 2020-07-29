@@ -10,6 +10,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import editModal from './EditModal';
+import moment from 'moment';
 
 import {addMessage, deleteMessage, editMessage, getMessages, setLike, toggleEditWindow} from "../redux/actions";
 import EditModal from "./EditModal";
@@ -55,12 +56,22 @@ const MessageList = ({
                          toggleEdit
 }) => {
 
+    let sortedMessages = messages.sort((a, b) => {
+        if(a.createdAt > b.createdAt) {
+            return 1;
+        }
+        if(a.createdAt < b.createdAt) {
+            return -1;
+        }
+        return 0;
+    } );
+
+
     return(
         <Container>
             <div className="MessageList">
-                <h3>This is message list </h3>
                 {
-                    messages.map((ms, i) => {
+                    sortedMessages.map((ms, i) => {
                         const isCurrentUser = currentPropsUser.userId === ms.userId;
                         const divForCard = isCurrentUser ? rightForCurrentUser : null;
                         return(
@@ -85,14 +96,14 @@ const MessageList = ({
                                             <div style={CardFotterChildStyle} >
                                                 {
                                                     !isCurrentUser && (
-                                                        <IconButton onClick={() => likeMessageHandler(ms)} >
+                                                        <IconButton onClick={() => likeMessageHandler(ms.id)} >
                                                             <FavoriteIcon color={ms.isLike ? "secondary" : "action"} />
                                                         </IconButton>
                                                     )
                                                 }
                                                 {
                                                     isCurrentUser && (
-                                                        <IconButton onClick={() => deleteMessageHandler(ms)}>
+                                                        <IconButton onClick={() => deleteMessageHandler(ms.id)}>
                                                             <DeleteIcon  />
                                                         </IconButton>
                                                     )
@@ -108,7 +119,7 @@ const MessageList = ({
                                                 }
                                             </div>
                                             <Typography align="right" variant="body2" color="textSecondary" style={CardFotterChildStyle}>
-                                                {ms.createdAt}
+                                                {moment(ms.createdAt).format("LLLL")}
                                             </Typography>
                                         </div>
                                     </CardContent>

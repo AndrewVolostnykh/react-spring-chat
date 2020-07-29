@@ -52,4 +52,19 @@ public class ChatController {
         return chatService.getUserList(adminId);
     }
 
+    @DeleteMapping("/message/delete/{messageId}") //TODO: next three methods not checking for loggedin user and admin, have to be fixed
+    public void deleteMessage(@PathVariable UUID messageId) {
+        chatService.deleteMessage(messageId);
+    }
+
+    @DeleteMapping("/user/delete")
+    public void deleteUser(@RequestBody UUID userId) {
+        chatService.deleteUser(userId);
+    }
+
+    @PutMapping("/message/like/{messageId}")
+    public Message setLike(@PathVariable UUID messageId) {
+        return chatService.setLike(messageId);
+    }
+
 }

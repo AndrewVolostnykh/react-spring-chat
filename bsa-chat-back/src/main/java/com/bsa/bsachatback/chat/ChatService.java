@@ -7,6 +7,7 @@ import com.bsa.bsachatback.chat.exception.UserValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class ChatService {
 
         repository.addOrEditMessage(new Message(UUID.randomUUID(),
                 "Test message number one",
-                null,
+                Instant.now(),
                 null,
                 UUID.fromString("9c1b2ed8-5bdf-480a-9b24-d0a480b619b5"),
                 "this is urlForavatar",
@@ -34,7 +35,7 @@ public class ChatService {
 
         repository.addOrEditMessage(new Message(UUID.randomUUID(),
                 "Test message number two",
-                null,
+                Instant.now(),
                 null,
                 UUID.fromString("9c1b2ed8-5bdf-480a-9b24-d0a480b619b5"),
                 "this is urlForavatar",
@@ -43,7 +44,7 @@ public class ChatService {
 
         repository.addOrEditMessage(new Message(UUID.randomUUID(),
                 "Test message number three",
-                null,
+                Instant.now(),
                 null,
                 UUID.fromString("9c1b2ed8-5bdf-480a-9b24-d0a480b619b5"),
                 "this is urlForavatar",
@@ -52,7 +53,7 @@ public class ChatService {
 
         repository.addOrEditMessage(new Message(UUID.randomUUID(),
                 "Regular user message one",
-                null,
+                Instant.now(),
                 null,
                 UUID.fromString("caba20f4-4395-403c-911a-360480ccac3b"),
                 "this is urlForavatar",
@@ -61,7 +62,7 @@ public class ChatService {
 
         repository.addOrEditMessage(new Message(UUID.randomUUID(),
                 "Regular user message two",
-                null,
+                Instant.now(),
                 null,
                 UUID.fromString("caba20f4-4395-403c-911a-360480ccac3b"),
                 "this is urlForavatar",
@@ -70,7 +71,7 @@ public class ChatService {
 
         repository.addOrEditMessage(new Message(UUID.randomUUID(),
                 "Regular user message three",
-                null,
+                Instant.now(),
                 null,
                 UUID.fromString("caba20f4-4395-403c-911a-360480ccac3b"),
                 "this is urlForavatar",
@@ -88,6 +89,11 @@ public class ChatService {
 
     public Message editOrAddMessage(UUID userId, Message message) throws UserValidationException {
         if(this.isLogged(userId)) {
+            if(message.getCreatedAt() == null) {
+                message.setCreatedAt(Instant.now());
+            } else {
+                message.setEditedAt(Instant.now());
+            }
             return repository.addOrEditMessage(message);
         } else {
             throw new UserValidationException("You have to login at first");
@@ -139,18 +145,20 @@ public class ChatService {
         return repository.getUsersList();
     }
 
-    public Message setLike(UUID userId, Message message) {
-        if(!isLogged(userId)) {
-            throw new UserValidationException("You have to login at first");
-        }
+    public Message setLike(UUID messageId) {
 
-        var reposMessage = repository.findMessageById(message.getId());
+        Message message = repository.findMessageById(messageId);
 
-        if(reposMessage == null) { // idk but this situation impossible for me
-            throw new ContentNotFoundException("This message have not founded in storage");
-        }
-
+        message.setIsLike(!message.getIsLike());
         return repository.addOrEditMessage(message);
+    }
+
+    public void deleteMessage(UUID messageId) {
+        repository.deleteMessageById(messageId);
+    }
+
+    public void deleteUser(UUID userId) {
+        repository.deleteUserById(userId);
     }
 
     private Boolean isLogged(UUID userId) throws UserNotFoundException {
