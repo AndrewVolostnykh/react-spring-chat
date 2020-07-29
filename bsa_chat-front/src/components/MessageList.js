@@ -15,6 +15,7 @@ import {addMessage, deleteMessage, editMessage, getMessages, setLike, toggleEdit
 import EditModal from "./EditModal";
 
 const CardsStyle = {
+    background: "#f2ffff",
     width: "60%",
     marginTop: "10px"
 }
@@ -74,7 +75,7 @@ const MessageList = ({
                                                 )
                                             }
                                             <Typography gutterBottom variant="h6" component="h2">
-                                                {ms.user}
+                                                { ms.user || ms.userName }
                                             </Typography>
                                         </div>
                                         <Typography variant="body1" color="textSecondary" component="p">

@@ -7,9 +7,9 @@ import MessageInput from '../components/MessageInput';
 import MessageList from '../components/MessageList';
 import Container from '@material-ui/core/Container';
 import { CircularProgress, FormHelperText } from '@material-ui/core';
+import { Redirect } from "react-router-dom";
 
 const ContainerStyle = {
-  background: "#e6e6ff",
   maxHeight: "100%",
   marginTop: "63px"
 }
@@ -111,22 +111,26 @@ class Chat extends Component {
     const {
       isLoading
     } = this.state;
+    if(this.props.currentUser.isLoggedIn) {
+      console.log("Something ")
+      return (
+          <div>
+            {isLoading ? <div style={spinnerStyle}><CircularProgress/></div> : null}
 
-    return(
-      <div>
-        {isLoading ? <div style={spinnerStyle}><CircularProgress /></div> : null}
+            <Container style={ContainerStyle}>
+              <MessageList/>
+            </Container>
 
-        <Header />
+            <div style={inputMessageStyle}>
+              <MessageInput style={inputMessageStyle}/>
+            </div>
 
-        <Container style={ContainerStyle}>
-          <MessageList/>
-        </Container>
+          </div>
+      )
+    }
 
-        <div style={inputMessageStyle}>
-            <MessageInput style={inputMessageStyle}/>
-        </div>
-
-      </div>
+    return (
+        <Redirect to="login" />
     )
   }
 }

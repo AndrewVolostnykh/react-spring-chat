@@ -14,7 +14,17 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from 'react-router-dom'
 import {connect} from "react-redux";
 
+const containerStyle = {
+    marginTop: "100px"
+}
+
+const fieldsStyle  = {
+    margin: "20px"
+}
+
 const LoginPage = (props) => {
+
+    const history = useHistory();
 
     const [user, setUser] = useState({
         name: '',
@@ -45,7 +55,6 @@ const LoginPage = (props) => {
         event.preventDefault();
     };
 
-    const history = useHistory();
 
     const changePage = () => {
         if(props.isLoading) {
@@ -65,8 +74,9 @@ const LoginPage = (props) => {
 
 
     return (
-        <Container>
+        <Container style={containerStyle}>
             <TextField
+                style={fieldsStyle}
                 id="outlined-helperText"
                 name="message"
                 label="Name: "
@@ -76,7 +86,7 @@ const LoginPage = (props) => {
                 onChange={handleChange('name')}
             />
 
-            <FormControl >
+            <FormControl style={fieldsStyle} >
                 <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                 <Input
                     id="standard-adornment-password"

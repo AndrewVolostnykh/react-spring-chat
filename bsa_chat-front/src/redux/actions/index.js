@@ -1,8 +1,7 @@
 import Messages from "../../data/Messages";
 
 export const getMessages = () => ({
-  type: 'GET_MESSAGES',
-  payload: Messages
+  type: 'GET_MESSAGES'
 })
 
 export const deleteMessage = ms => ({

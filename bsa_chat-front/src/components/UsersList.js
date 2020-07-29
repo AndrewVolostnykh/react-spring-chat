@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import MaterialTable from "material-table";
+import {connect} from "react-redux";
 
 
 
-function UsersList() {
+const UsersList = (props) => {
     return (
         <MaterialTable
             title="Administrator tool: Users list"
@@ -47,4 +48,6 @@ function UsersList() {
     )
 }
 
-export default UsersList;
+const mapStateToProps = state => state
+
+export default connect(mapStateToProps, null)(UsersList);

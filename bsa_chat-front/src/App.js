@@ -16,12 +16,15 @@ import LoginPage from './pages/Login';
 import EditMessagePage from "./pages/EditMessage";
 import UserEditOrAdd from "./components/UserEditOrAdd";
 import UsersList from "./components/UsersList";
+import NavigationBar from './components/NavigationBar'
+import Header from "./components/Header";
 ///>
 class App extends Component {
     render() {
         return (
             <Provider store={store}>
                 <Router>
+                    <Header />
                     <Switch>
                         <Route path="/chat" component={Chat} />
                         <Route path="/message/:id" component={EditMessagePage} />

@@ -6,6 +6,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import PeopleIcon from '@material-ui/icons/People';
 import {addMessage, editMessage} from "../redux/actions";
 import {connect} from "react-redux";
+import { Link } from 'react-router-dom';
 
 const IconsStyle = {
     marginLeft: "30px"
@@ -16,9 +17,14 @@ const lastActivityStyle = {
     textAlign: "right"
 }
 
-const Header = ({ messages }) => {
-    let numberOfMessages = messages.length;
-    let participants = Array.from(new Set(messages.map((item) => item.userId))).length;
+const linkStyle = {
+    color: "white",
+    margin: "5px"
+}
+
+const Header = (props) => {
+    let numberOfMessages = props.messages.length;
+    let participants = Array.from(new Set(props.messages.map((item) => item.userId))).length;
     let lastMessageIn = null;
 
     return (
@@ -32,7 +38,9 @@ const Header = ({ messages }) => {
                         <PeopleIcon />
                     </Badge>
                 </Typography>
-                <Typography align="right" variant="h6" style={IconsStyle}>   Bsa Chat!   </Typography>
+                <Typography align="right" variant="h6" style={IconsStyle}><Link style={linkStyle} to="/chat">   Bsa Chat!  </Link></Typography>
+                { props.currentUser.isAdmin ? <Link style={linkStyle} to="/users">Admin tool</Link> : null }
+                <Link style={linkStyle} to="/login">Login page</Link>
                 <div style={lastActivityStyle}>
                     <Typography align="right" variant="h6" style={IconsStyle}>   latest: {} </Typography>
                 </div>
@@ -41,9 +49,7 @@ const Header = ({ messages }) => {
     )
 }
 
-const mapStateToProps = state => ({
-    messages: state.messages
-})
+const mapStateToProps = state => state;
 
 
 export default connect(mapStateToProps, null)(Header);
