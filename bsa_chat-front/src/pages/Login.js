@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
@@ -20,6 +20,17 @@ const LoginPage = (props) => {
         name: '',
         password: '',
         showPassword: false
+    })
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if(props.isLoading) setIsLoading(true);
+
+        if(props.currentUser.isLoggedIn) {
+            setIsLoading(false);
+            props.currentUser.isAdmin ? history.push("/users") : history.push("/chat")
+        }
     })
 
     const handleChange = (prop) => (event) => {
@@ -46,7 +57,7 @@ const LoginPage = (props) => {
         }
 
         if(props.currentUser != null) {
-            props.currentUser.isAdmin ? history.push('/users') : history.push('chat');
+            props.currentUser.isAdmin ? history.push('/users') : history.push('/chat');
         }
 
         return null;
@@ -55,7 +66,6 @@ const LoginPage = (props) => {
 
     return (
         <Container>
-
             <TextField
                 id="outlined-helperText"
                 name="message"
@@ -86,14 +96,16 @@ const LoginPage = (props) => {
                     }
                 />
             </FormControl>
-            { changePage }
+
+            { isLoading ? <CircularProgress /> : null }
+
             <Button
                 variant="contained"
                 color="primary"
-                //style={SendButton}
+                //style={SendButton}  props.dispatch(dropUser());
                 onClick={() => {
-                    props.dispatch(dropUser());
-                    props.dispatch(loginUser(user.name, user.password, history));
+
+                    props.dispatch(loginUser(user.name, user.password));
                 }}>
                 {"Send"}
             </Button>

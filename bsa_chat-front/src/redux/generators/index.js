@@ -28,12 +28,6 @@ function* fetchUserAsync(action) {
         yield put(success());
         yield put({type:"FILL_USER", payload: data.data})
 
-        if(data.data.isAdmin) {
-            action.payload.history.push('/users');
-        } else {
-            action.payload.history.push('/chat');
-        }
-
     } catch (error) {
         yield put(apiError(error))
     }
