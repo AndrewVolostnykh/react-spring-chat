@@ -45,8 +45,8 @@ class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: Messages,
-      messagesLength: Messages.length,
+      messages: [],
+      messagesLength: 0,
       currentUser: {
         user: "Andrew",
         userId: "121314",
@@ -103,20 +103,17 @@ class Chat extends Component {
 
   componentDidMount() {
     const { getMessagesHandler } = this.props;
-    getMessagesHandler();
-    setTimeout(() => {this.setState({isLoading: false})}, 200);
+    getMessagesHandler(this.props.currentUser.userId);
   }
 
   render() {
     const {
       isLoading
     } = this.state;
+    console.log(this.props);
     if(this.props.currentUser.isLoggedIn) {
-      console.log("Something ")
       return (
           <div>
-            {isLoading ? <div style={spinnerStyle}><CircularProgress/></div> : null}
-
             <Container style={ContainerStyle}>
               <MessageList/>
             </Container>

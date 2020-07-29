@@ -1,10 +1,10 @@
 const messages = (state, action) => {
   switch (action.type) {
-    case 'GET_MESSAGES':
-      return {
-        ...state,
-        messages: action.payload
-      }
+    // case 'GET_MESSAGES':
+    //   return {
+    //     ...state,
+    //     messages: action.payload
+    //   }
     case 'SET_LIKE':
       return {
         ...state,
@@ -17,13 +17,13 @@ const messages = (state, action) => {
         ...state,
         messages: [...state.messages, action.payload]
       }
-    case 'EDIT_MESSAGE':
-      return {
-        ...state,
-        messages: state.messages.map(m =>
-          m.id === action.payload.id ?
-            action.payload : m)
-      }
+    // case 'EDIT_MESSAGE':
+    //   return {
+    //     ...state,
+    //     messages: state.messages.map(m =>
+    //       m.id === action.payload.id ?
+    //         action.payload : m)
+    //   }
     case 'DELETE_MESSAGE':
       return {
         ...state,
@@ -66,6 +66,26 @@ const messages = (state, action) => {
       return {
         ...state,
         currentUser: action.payload
+      }
+
+    case 'FILL_MESSAGES':
+      return {
+        ...state,
+        messages: action.payload
+      }
+
+    case 'SUCCESS_MESSAGE_EDIT':
+      return{
+        ...state,
+        messages: state.messages.map(m =>
+            m.id === action.payload.id ?
+                action.payload : m)
+      }
+
+    case 'STORE_ADD_MESSAGE':
+      return{
+        ...state,
+        messages: [...state.messages, action.payload]
       }
 
     default:

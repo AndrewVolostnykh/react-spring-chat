@@ -86,7 +86,7 @@ const MessageList = ({
                                                 {
                                                     !isCurrentUser && (
                                                         <IconButton onClick={() => likeMessageHandler(ms)} >
-                                                            <FavoriteIcon color={ms.isLiked ? "secondary" : "action"} />
+                                                            <FavoriteIcon color={ms.isLike ? "secondary" : "action"} />
                                                         </IconButton>
                                                     )
                                                 }
@@ -99,7 +99,7 @@ const MessageList = ({
                                                 }
                                                 {
                                                     isCurrentUser && (
-                                                        <Link  to={`/message/${i}`} >
+                                                        <Link  to={`/message/${ms.id}`} >
                                                             <IconButton>
                                                                 <CreateIcon/>
                                                             </IconButton>

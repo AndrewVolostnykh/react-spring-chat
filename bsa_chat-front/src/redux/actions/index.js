@@ -1,7 +1,8 @@
 import Messages from "../../data/Messages";
 
-export const getMessages = () => ({
-  type: 'GET_MESSAGES'
+export const getMessages = (userId) => ({
+  type: 'GET_MESSAGES',
+  payload: userId
 })
 
 export const deleteMessage = ms => ({
@@ -19,9 +20,9 @@ export const addMessage = ms => ({
   payload: ms
 })
 
-export const editMessage = (ms, body) => ({
+export const editMessage = (ms, body, history) => ({
   type: 'EDIT_MESSAGE',
-  payload: {...ms, text: body}
+  payload: {ms: {...ms, text: body}, history: history}
 })
 
 export const toggleEditWindow = ms => ({

@@ -24,7 +24,7 @@ const linkStyle = {
 
 const Header = (props) => {
     let numberOfMessages = props.messages.length;
-    let participants = Array.from(new Set(props.messages.map((item) => item.userId))).length;
+    let participants = Array.from(new Set(props.messages && props.messages.map((item) => item.userId))).length;
     let lastMessageIn = null;
 
     return (

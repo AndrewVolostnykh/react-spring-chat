@@ -15,18 +15,21 @@ function EditModal({message, propsEditMessage, closeModal}) {
   };
 
     const modalStyles = {
-        marginTop: "80px",
-        marginLeft: "80px",
+        marginTop: "100px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center"
     }
 
-    const textFieldStyle = {
+    const textDivStyle = {
         background: "white",
         padding: "10px",
         border: "1px solid black",
         borderRadius: "8px"
+    }
+
+    const textFieldStyle = {
+
     }
 
     const buttonStyle = {
@@ -35,7 +38,7 @@ function EditModal({message, propsEditMessage, closeModal}) {
 
   return (
         <Modal open onClose={() => closeModal({})} style={modalStyles}>
-          <div style={textFieldStyle}>
+          <div style={textDivStyle}>
             <TextField
               // id="outlined-multiline-flexible"
               // label="Edit message"
