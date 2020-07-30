@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,12 +22,12 @@ public class ChatService {
         this.repository = repository;
         //INFO: this is filler of repository for tests
         //TestService.fillRepository();
-        repository.addOrEditUser(new User(UUID.fromString("9c1b2ed8-5bdf-480a-9b24-d0a480b619b5"), null, "admin", "admin", true, true));
-        repository.addOrEditUser(new User(UUID.fromString("caba20f4-4395-403c-911a-360480ccac3b"), null, "andrew", "andrew", false, false));
+        repository.addOrEditUser(new User(UUID.fromString("9c1b2ed8-5bdf-480a-9b24-d0a480b619b5"), "https://www.aceshowbiz.com/images/photo/tom_pelphrey.jpg", "admin", "admin", true, true));
+        repository.addOrEditUser(new User(UUID.fromString("caba20f4-4395-403c-911a-360480ccac3b"), "https://resizing.flixster.com/EVAkglctn7E9B0hVKJrueplabuQ=/220x196/v1.cjs0NjYwNjtqOzE4NDk1OzEyMDA7MjIwOzE5Ng", "andrew", "andrew", false, false));
 
         repository.addOrEditMessage(new Message(UUID.randomUUID(),
                 "Test message number one",
-                Instant.now(),
+                Instant.ofEpochMilli(1595243733000L),
                 null,
                 UUID.fromString("9c1b2ed8-5bdf-480a-9b24-d0a480b619b5"),
                 "this is urlForavatar",
@@ -146,7 +147,6 @@ public class ChatService {
     }
 
     public Message setLike(UUID messageId) {
-
         Message message = repository.findMessageById(messageId);
 
         message.setIsLike(!message.getIsLike());

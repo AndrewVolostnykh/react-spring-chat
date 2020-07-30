@@ -26,8 +26,9 @@ const linkStyle = {
 function latestFinder(messages) {
     let temp;
     for(let i = 1; i < messages.length; i++) {
-        if(messages[i-1].createdAt.localeCompare(messages[i].createdAt) == 1 ) {
-            temp = messages[i].createdAt;
+        if(Date.parse(messages[i-1].createdAt) >  Date.parse(messages[i].createdAt)) {
+            console.log(Date.parse(messages[i-1].createdAt))
+            temp = messages[i-1].createdAt;
         }
     }
     return temp;
@@ -36,7 +37,7 @@ function latestFinder(messages) {
 const Header = (props) => {
     let numberOfMessages = props.messages.length;
     let participants = Array.from(new Set(props.messages && props.messages.map((item) => item.userId))).length;
-    let lastMessageIn = props.messages ? latestFinder(props.messages) : 0;
+    let lastMessageIn = latestFinder(props.messages)
 
     const logout = () => {
         window.location.reload();

@@ -80,7 +80,7 @@ const MessageInput = ({
                 variant="contained"
                 color="primary"
                 style={SendButton}
-                onClick={() => addMessageHandler(newMessage)}
+                onClick={() => {addMessageHandler(newMessage); setMessage("")}}
                 >
                 {"Send"}
             </Button>

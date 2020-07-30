@@ -102,7 +102,7 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    const { getMessagesHandler } = this.props;
+    const { getMessagesHandler, getUsers } = this.props;
     getMessagesHandler(this.props.currentUser.userId);
   }
 
@@ -110,7 +110,6 @@ class Chat extends Component {
     const {
       isLoading
     } = this.state;
-    console.log(this.props);
     if(this.props.currentUser.isLoggedIn) {
       return (
           <div>

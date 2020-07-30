@@ -27,6 +27,10 @@ export function* setLike() {
     yield takeEvery('SET_LIKE', setLikeAsync);
 }
 
+export function* getUsers() {
+    yield takeEvery('GET_USERS', getUsersAsync);
+}
+
 export function* addUser() {
 
 }
@@ -112,3 +116,17 @@ function* setLikeAsync(action) {
         yield put(apiError(error));
     }
 }
+
+function* getUsersAsync(action) {
+    try {
+        console.log("Generator started: " + action.payload);
+        yield put(inProgress());
+        const data = yield call(axios.get, 'http://localhost:8181/userList/' + action.payload );
+        yield put(success());
+        yield put({type: "SUCCESS_USERS_GET", payload: data.data});
+        console.log(data.data);
+    } catch (error) {
+        yield put(apiError(error));
+    }
+}
+

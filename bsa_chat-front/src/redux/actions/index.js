@@ -52,3 +52,20 @@ export const dropUser = () => ({
   type: "DROP_USER",
   payload: null
 })
+
+export const getUsers = adminId => ({
+  type: 'GET_USERS',
+  payload: adminId
+})
+
+export const editUser = () => ({
+
+})
+
+export const deleteUser = userId => ({
+
+})
+
+export const createUser = () => ({
+
+})

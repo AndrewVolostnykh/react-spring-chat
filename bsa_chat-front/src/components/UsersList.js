@@ -3,32 +3,38 @@ import MaterialTable from "material-table";
 import {connect} from "react-redux";
 import { Redirect } from "react-router-dom";
 
+import { getUsers, createUser, deleteUser, editUser } from '../redux/actions'
+
+const tableStyles = {
+    marginTop: "150px"
+}
+
+const someFunc = data => {
+    console.log(data);
+}
+
 const UsersList = (props) => {
     if(props.currentUser.isAdmin) {
+        console.log(props.users);
         return (
             <MaterialTable
+                style={tableStyles}
                 title="Administrator tool: Users list"
                 columns={[
                     {
-                        title: 'Name', field: 'name', validate: rowData => rowData.name !== '',
-                    },
-                    {title: 'Surname', field: 'surname', validate: rowData => rowData.surname.length > 3},
-                    {
-                        title: 'Birth Year',
-                        field: 'birthYear',
-                        type: 'numeric',
-                        validate: rowData => rowData.birthYear > 1900
+                        title: 'Name', field: 'userName', validate: rowData => rowData.name !== '',
                     },
                     {
-                        title: 'Birth Place',
-                        field: 'birthCity',
-                        lookup: {34: 'İstanbul', 63: 'Şanlıurfa'},
+                        title: 'Avatar', field: 'avatar', validate: rowData => rowData.avatar.length > 3
                     },
+                    {
+                        title: 'isAdmin', field: 'isAdmin'
+                    },
+                    {
+                        title: 'userId', field: 'userId'
+                    }
                 ]}
-                data={[
-                    {name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63},
-                    {name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34},
-                ]}
+                data={props.users}
                 editable={{
                     // onRowAdd: newData =>
                     //     new Promise((resolve, reject) => {
@@ -37,17 +43,22 @@ const UsersList = (props) => {
                     //             resolve();
                     //         }, 1000)
                     //     }),
-                    // onRowUpdate: (newData, oldData) =>
-                    //     new Promise((resolve, reject) => {
-                    //         setTimeout(() => {
-                    //             const dataUpdate = [...data];
-                    //             const index = oldData.tableData.id;
-                    //             dataUpdate[index] = newData;
-                    //             setData(dataUpdate);
-                    //
-                    //             resolve();
-                    //         }, 1000)
-                    //     }),
+                    // // onRowUpdate: (newData, oldData) =>
+                    // //     new Promise((resolve, reject) => {
+                    // //         setTimeout(() => {
+                    // //             const dataUpdate = [...data];
+                    // //             const index = oldData.tableData.id;
+                    // //             dataUpdate[index] = newData;
+                    // //             setData(dataUpdate);
+                    // //
+                    // //             resolve();
+                    // //         }, 1000)
+                    // //     }),
+                    isEditHidden: rowData => rowData.name === 'admin',
+                    isDeleteHidden: rowData => rowData.name === 'admin',
+                    onRowUpdate: newData => Promise.resolve(someFunc(newData)),
+                    onRowAdd: newData => Promise.resolve(someFunc(newData)),
+                    onRowDelete: oldData => Promise.resolve(someFunc(oldData))
                 }}
             />
         )
@@ -60,4 +71,11 @@ const UsersList = (props) => {
 
 const mapStateToProps = state => state
 
-export default connect(mapStateToProps, null)(UsersList);
+const mapDispatchToProps = {
+    getUsersProps: getUsers,
+    editUserProps: editUser,
+    createUserProps: createUser,
+    deleteUserProps: deleteUser
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UsersList);

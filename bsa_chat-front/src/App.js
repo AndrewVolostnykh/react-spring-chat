@@ -16,8 +16,8 @@ import LoginPage from './pages/Login';
 import EditMessagePage from "./pages/EditMessage";
 import UserEditOrAdd from "./components/UserEditOrAdd";
 import UsersList from "./components/UsersList";
-import NavigationBar from './components/NavigationBar'
 import Header from "./components/Header";
+import AdminPage from "./pages/AdminPage";
 ///>
 class App extends Component {
     render() {
@@ -30,7 +30,7 @@ class App extends Component {
                         <Route path="/message/:id" component={EditMessagePage} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/user/edit" component={UserEditOrAdd} />
-                        <Route path="/users" component={UsersList} />
+                        <Route path="/users" component={AdminPage} />
                     </Switch>
                 </Router>
             </Provider>

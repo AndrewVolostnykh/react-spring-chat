@@ -107,7 +107,7 @@ const LoginPage = (props) => {
                 />
             </FormControl>
 
-            { isLoading ? <CircularProgress /> : null }
+            {/* isLoading ? <CircularProgress /> : null */}
 
             <Button
                 variant="contained"

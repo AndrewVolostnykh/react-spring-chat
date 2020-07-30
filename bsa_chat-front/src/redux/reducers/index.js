@@ -93,6 +93,12 @@ const messages = (state, action) => {
         messages: state.messages.map(m => m.id === action.payload ? {...m, isLike: !m.isLike} : m)
       }
 
+    case 'SUCCESS_USERS_GET':
+      return {
+        ...state,
+        users: action.payload
+      }
+
     default:
       return state
   }

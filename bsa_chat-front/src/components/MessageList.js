@@ -57,7 +57,7 @@ const MessageList = ({
 }) => {
 
     let sortedMessages = messages.sort((a, b) => {
-        if(a.createdAt > b.createdAt) {
+        if(Date.parse(a.createdAt) > Date.parse(b.createdAt)) {
             return 1;
         }
         if(a.createdAt < b.createdAt) {
