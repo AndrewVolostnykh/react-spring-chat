@@ -101,16 +101,8 @@ public class ChatService {
         }
     }
 
-    public User editOrAddUser(UUID currentUser, User user) {
-        if(this.isLogged(currentUser)) {
-            if(this.isAdmin(currentUser)) {
-                return repository.addOrEditUser(user);
-            } else {
-                throw new UserHaveNoPermissions("You have no permissions to do this");
-            }
-        } else {
-            throw new UserValidationException("You have to login at first");
-        }
+    public User editOrAddUser(User user) {
+        return repository.addOrEditUser(user);
     }
 
     public User login(String userName, String password) {

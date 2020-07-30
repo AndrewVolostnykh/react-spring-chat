@@ -58,14 +58,17 @@ export const getUsers = adminId => ({
   payload: adminId
 })
 
-export const editUser = () => ({
-
+export const editUser = ({userName, isAdmin, password, avatar, userId}) => ({
+  type: 'EDIT_USER',
+  payload: {userName, isAdmin, password, avatar, userId}
 })
 
-export const deleteUser = userId => ({
-
+export const deleteUser = ({userId}) => ({
+  type: 'DELETE_USER',
+  payload: userId
 })
 
-export const createUser = () => ({
-
+export const createUser = ({userName, isAdmin, password, avatar, userId}) => ({
+  type: 'CREATE_USER',
+  payload: {userName, isAdmin, password, avatar, userId}
 })

@@ -99,6 +99,25 @@ const messages = (state, action) => {
         users: action.payload
       }
 
+    case 'SUCCESS_USER_CREATING':
+      return {
+        ...state,
+        users: [...state.users, action.payload]
+      }
+
+    case 'SUCCESS_USER_DELETED':
+      return {
+        ...state,
+        users: state.users.filter(u => u.userId !== action.payload)
+      }
+
+    case 'SUCCESS_USER_EDITING':
+      return {
+        ...state,
+        users: state.users.map(u => u.userId === action.payload.userId ? action.payload : u)
+      }
+
+
     default:
       return state
   }

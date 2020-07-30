@@ -18,7 +18,7 @@ public class Message {
     private Instant editedAt;
 
     private UUID userId;
-    private String userUrlAvatar;
+    private String avatar;
     private String userName;
 
     private Boolean isLike;

@@ -10,7 +10,12 @@ public class Repository {
     private Map<UUID, Message> messages = new HashMap<>();
 
     public User addOrEditUser(User user) {
-        return users.put(user.getUserId(), user);
+        if(user.getUserId() == null) {
+            user.setUserId(UUID.randomUUID());
+        }
+        users.put(user.getUserId(), user);
+        System.out.println(users.get(user.getUserId()));
+        return users.get(user.getUserId());
     }
 
     public List<User> getUsersList() {

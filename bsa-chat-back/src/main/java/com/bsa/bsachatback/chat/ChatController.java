@@ -31,15 +31,9 @@ public class ChatController {
         return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
 
-    @PostMapping("/user/edit/{adminId}") //TODO: here incorrect checking for null. fix it
-    public ResponseEntity<?> editOrAddUser(@PathVariable UUID adminId, @RequestBody User newUser) {
-        var userResponse = chatService.editOrAddUser(adminId, newUser);
-
-        if(userResponse == null) {
-            return new ResponseEntity<>(Map.of("error", "User have to be logged in and Admin"), HttpStatus.FORBIDDEN);
-        }
-
-        return new ResponseEntity<>(userResponse, HttpStatus.OK);
+    @PostMapping("/user/edit") //TODO: here incorrect checking for null. fix it
+    public User editOrAddUser( @RequestBody User newUser) {
+        return chatService.editOrAddUser(newUser);
     }
 
     @PostMapping("/login")
@@ -57,8 +51,8 @@ public class ChatController {
         chatService.deleteMessage(messageId);
     }
 
-    @DeleteMapping("/user/delete")
-    public void deleteUser(@RequestBody UUID userId) {
+    @DeleteMapping("/user/delete/{userId}")
+    public void deleteUser(@PathVariable UUID userId) {
         chatService.deleteUser(userId);
     }
 
